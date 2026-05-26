@@ -8,8 +8,6 @@ fn main() {
         env::var("LOCALAPPDATA").expect("Missing AppData environment variable")
     ))
     .expect("Riot Client lockfile missing");
-    println!(
-        "{}",
-        LockFile::new(lockfile_data).expect("There was an issue constructing the lockfile data")
-    );
+    let lockfile =
+        LockFile::new(lockfile_data).expect("There was an issue constructing the lockfile data");
 }
