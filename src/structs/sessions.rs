@@ -7,7 +7,7 @@ use crate::structs::{callable::Callable, lockfile::LockFile};
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SessionLaunchConfiguration {
+pub struct ExternalSessionLaunchConfiguration {
     arguments: Vec<String>,
     executable: String,
     locale: Option<String>,
@@ -16,7 +16,7 @@ pub struct SessionLaunchConfiguration {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum SessionPatchlineFullName {
+pub enum ExternalSessionPatchlineFullName {
     #[serde(rename = "VALORANT")]
     Valorant,
     RiotClient,
@@ -24,7 +24,7 @@ pub enum SessionPatchlineFullName {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum SessionPatchlineId {
+pub enum ExternalSessionPatchlineId {
     #[serde(rename = "")]
     Empty,
     Live,
@@ -33,26 +33,26 @@ pub enum SessionPatchlineId {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum SessionProductId {
+pub enum ExternalSessionProductId {
     Valorant,
     RiotClient,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Session {
+pub struct ExternalSession {
     exit_code: u64,
     is_internal: bool,
-    launch_configuration: SessionLaunchConfiguration,
-    patchline_full_name: SessionPatchlineFullName,
-    patchline_id: SessionPatchlineId,
+    launch_configuration: ExternalSessionLaunchConfiguration,
+    patchline_full_name: ExternalSessionPatchlineFullName,
+    patchline_id: ExternalSessionPatchlineId,
     phase: String,
-    product_id: SessionProductId,
+    product_id: ExternalSessionProductId,
     version: String,
 }
 
 impl LockFile {
-    pub fn sessions(&self) -> Result<HashMap<String, Session>> {
+    pub fn sessions(&self) -> Result<HashMap<String, ExternalSession>> {
         self.get("/product-session/v1/external-sessions")
     }
 }
