@@ -1,6 +1,8 @@
 use std::fmt::Display;
 
 use anyhow::{Result, anyhow};
+use base64::{Engine, engine::general_purpose};
+use serde::de::DeserializeOwned;
 use ureq::{config::Config, tls::TlsConfig};
 
 use crate::structs::callable::Callable;
@@ -61,5 +63,24 @@ impl Callable for LockFile {
                 .tls_config(TlsConfig::builder().disable_verification(true).build())
                 .build(),
         )
+    }
+
+    fn get<T: DeserializeOwned>(&self, path: &str) -> Result<T> {
+        Ok(self
+            .agent()
+            .get(format!(
+                "{}://localhost:{}{}",
+                self.protocol, self.port, path
+            ))
+            .header(
+                "Authorization",
+                format!(
+                    "Basic {}",
+                    general_purpose::STANDARD.encode(format!("riot:{}", self.password))
+                ),
+            )
+            .call()?
+            .into_body()
+            .read_json()?)
     }
 }

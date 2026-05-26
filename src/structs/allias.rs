@@ -15,21 +15,6 @@ pub struct Alias {
 
 impl LockFile {
     pub fn alias(&self) -> Result<Alias> {
-        Ok(self
-            .agent()
-            .get(format!(
-                "{}://localhost:{}/player-account/aliases/v1/active",
-                self.protocol, self.port
-            ))
-            .header(
-                "Authorization",
-                format!(
-                    "Basic {}",
-                    general_purpose::STANDARD.encode(format!("riot:{}", self.password))
-                ),
-            )
-            .call()?
-            .into_body()
-            .read_json()?)
+        self.get("/player-account/aliases/v1/active")
     }
 }
