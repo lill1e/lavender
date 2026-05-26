@@ -10,4 +10,5 @@ fn main() {
     .expect("Riot Client lockfile missing");
     let lockfile =
         LockFile::new(lockfile_data).expect("There was an issue constructing the lockfile data");
+    println!("{}", lockfile);
 }
