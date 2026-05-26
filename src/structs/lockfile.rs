@@ -11,7 +11,7 @@ pub struct LockFile {
     pid: u32,
     pub port: u16,
     pub password: String,
-    protocol: String,
+    pub protocol: String,
 }
 
 impl LockFile {
