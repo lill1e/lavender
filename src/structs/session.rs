@@ -4,7 +4,7 @@ use serde::Deserialize;
 use crate::structs::{callable::Callable, lockfile::LockFile};
 
 #[derive(Debug, Deserialize)]
-struct Session {
+pub struct Session {
     federated: bool,
     game_name: String,
     game_tag: String,
@@ -19,7 +19,7 @@ struct Session {
 }
 
 impl LockFile {
-    fn session(&self) -> Result<Session> {
+    pub fn session(&self) -> Result<Session> {
         self.get("/chat/v1/session")
     }
 }

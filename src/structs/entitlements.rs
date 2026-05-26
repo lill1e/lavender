@@ -5,7 +5,7 @@ use crate::structs::{callable::Callable, lockfile::LockFile};
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-struct Entitlements {
+pub struct Entitlements {
     /** Used as the token in requests */
     access_token: String,
     entitlements: Vec<String>,
