@@ -1,6 +1,9 @@
 use std::fmt::Display;
 
 use anyhow::{Result, anyhow};
+use ureq::{config::Config, tls::TlsConfig};
+
+use crate::structs::callable::Callable;
 
 #[derive(Debug, Clone)]
 pub struct LockFile {
@@ -45,7 +48,18 @@ impl Display for LockFile {
     pid: {}
     port: {}
     password: {}
-    protocol: {}\n}}", self.name, self.pid, self.port, self.password, self.protocol
+    protocol: {}\n}}",
+            self.name, self.pid, self.port, self.password, self.protocol
+        )
+    }
+}
+
+impl Callable for LockFile {
+    fn agent(&self) -> ureq::Agent {
+        ureq::Agent::new_with_config(
+            Config::builder()
+                .tls_config(TlsConfig::builder().disable_verification(true).build())
+                .build(),
         )
     }
 }
