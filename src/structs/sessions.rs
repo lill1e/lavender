@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
 use anyhow::Result;
-use base64::{Engine, engine::general_purpose};
 use serde::Deserialize;
 
 use crate::structs::{callable::Callable, lockfile::LockFile};
